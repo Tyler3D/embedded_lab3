@@ -80,12 +80,7 @@ module vga_counters(
    // Parameters for vcount
    parameter VACTIVE      = 10'd 480,
              VFRONT_PORCH = 10'd 10,
-             VSYNC        = 10'd 2,2.4 Connect the vga Peripheral to its Pins
-Your vga Ball peripheral needs to communicate through its conduit through pins to an
-off-chip vga dac. To do this, edit soc_system_top.sv with a text editor to add the following
-connections within the instance of soc_system near the end of the le:
-.vga_r (VGA_R),
-.vga_g 
+             VSYNC        = 10'd 2,
              VBACK_PORCH  = 10'd 33,
              VTOTAL       = VACTIVE + VFRONT_PORCH + VSYNC +
                             VBACK_PORCH; // 525
