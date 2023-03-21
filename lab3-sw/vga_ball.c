@@ -93,8 +93,8 @@ static long vga_ball_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 		break;
 
 	case VGA_BALL_WRITE_HEIGHT:
-		if (copy_from_user(&vla, (vga_ball_arg_t *) arg), 
-					sizeof(vga_ball_arg_t))
+		if (copy_from_user(&vla, (vga_ball_arg_t *) arg,
+				   sizeof(vga_ball_arg_t)))
 			return -EACCES;
 		write_height(vla.height);
 		break;
