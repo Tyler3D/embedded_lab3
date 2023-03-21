@@ -43,7 +43,7 @@ module vga_ball(input logic        clk,
       if (VGA_BLANK_n )
 	if (hcount[10:6] == 5'd3 &&
 	    vcount[8:1] == height)
-	  {VGA_R, VGA_G, VGA_B} = {8'hff, 8'hff, 8'hff};
+	  {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
 	else
 	  {VGA_R, VGA_G, VGA_B} =
              {background_r, background_g, background_b};
