@@ -40,6 +40,16 @@ void set_background_color(const vga_ball_color_t *c)
   }
 }
 
+void set_height(const int height)
+{
+	vga_ball_arg_t vla;
+	vla.height = height;
+  if (ioctl(vga_ball_fd, VGA_BALL_WRITE_HEIGHT, &vla)) {
+      perror("ioctl(VGA_BALL_SET_HEIGHT) failed");
+      return;
+  }
+}
+
 int main()
 {
   vga_ball_arg_t vla;
@@ -69,12 +79,17 @@ int main()
 
   printf("initial state: ");
   print_background_color();
-
   for (i = 0 ; i < 24 ; i++) {
     set_background_color(&colors[i % COLORS ]);
     print_background_color();
     usleep(400000);
   }
+
+	for (i = 200; i >= 0; i--) {
+	set_height(i);
+	usleep(40000);
+}
+
   
   printf("VGA BALL Userspace program terminating\n");
   return 0;

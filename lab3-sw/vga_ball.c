@@ -39,6 +39,7 @@
 #define BG_RED(x) (x)
 #define BG_GREEN(x) ((x)+1)
 #define BG_BLUE(x) ((x)+2)
+#define HEIGHT(x) ((x)+3)
 
 /*
  * Information about our device
@@ -46,7 +47,8 @@
 struct vga_ball_dev {
 	struct resource res; /* Resource: our registers */
 	void __iomem *virtbase; /* Where registers can be accessed in memory */
-        vga_ball_color_t background;
+    vga_ball_color_t background;
+	char ball_height;
 } dev;
 
 /*
@@ -61,6 +63,11 @@ static void write_background(vga_ball_color_t *background)
 	dev.background = *background;
 }
 
+static void write_height(int height)
+{
+	iowrite8(height, HEIGHT(dev.virtbase));
+	dev.ball_height = height;
+}
 /*
  * Handle ioctl() calls from userspace:
  * Read or write the segments on single digits.
@@ -85,6 +92,12 @@ static long vga_ball_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			return -EACCES;
 		break;
 
+	case VGA_BALL_WRITE_HEIGHT:
+		if (copy_from_user(&vla, (vga_ball_arg_t *) arg), 
+					sizeof(vga_ball_arg_t))
+			return -EACCES;
+		write_height(vla.height);
+		break;
 	default:
 		return -EINVAL;
 	}
