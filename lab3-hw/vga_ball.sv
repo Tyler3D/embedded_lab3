@@ -11,6 +11,7 @@ module vga_ball(input logic        clk,
 		input logic 	   write,
 		input 		   chipselect,
 		input logic [2:0]  address,
+    input logic [5:0] height,
 
 		output logic [7:0] VGA_R, VGA_G, VGA_B,
 		output logic 	   VGA_CLK, VGA_HS, VGA_VS,
@@ -40,7 +41,7 @@ module vga_ball(input logic        clk,
       {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
       if (VGA_BLANK_n )
 	if (hcount[10:6] == 5'd3 &&
-	    vcount[9:5] == 5'd3)
+	    vcount[9:5] == height)
 	  {VGA_R, VGA_G, VGA_B} = {8'hff, 8'hff, 8'hff};
 	else
 	  {VGA_R, VGA_G, VGA_B} =
