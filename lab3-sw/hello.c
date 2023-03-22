@@ -93,6 +93,7 @@ int main()
   int y = (rand() % (V_SIZE - 5)) + 5;
   set_coords(x, y);
   while(1) {
+    usleep(400000);
     if (x + x_vel >= H_SIZE) {
       x = H_SIZE;
       x_vel *= -1;
