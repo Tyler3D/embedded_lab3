@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "vga_ball.h"
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -86,11 +87,36 @@ int main()
     usleep(40000);
   }
 	printf("Begin of moving ball");
-	for (i = 0; i < 100; i++) {
+	int x_vel = (rand() % 2) - 1;
+  int y_vel = (rand() % 2) - 1;
+  int x = (rand() % (H_SIZE - 5)) + 5
+  int y = (rand() % (V_SIZE - 5)) + 5
+  set_coords(x, y);
+  while(1) {
+    if (x + x_vel >= H_SIZE) {
+      x = H_SIZE;
+      x_vel *= -1;
+    } else if (x + x_vel <= 0) {
+      x = 0;
+      x_vel *= -1;
+    } else if (y + y_vel >= V_SIZE) {
+      y = V_SIZE;
+      y_vel *= -1;
+    } else if (y + y_vel <= 0) {
+      y = 0;
+      y_vel *= -1;
+    } else {
+      x += x_vel;
+      y += y_vel;
+    }
+    set_coords(x, y);
+  }
+  /*
+  for (i = 0; i < 100; i++) {
 		set_coords(i % 16, i % 16);
 		usleep(400000);
 		}
-
+  */
   
   printf("VGA BALL Userspace program terminating\n");
   return 0;
