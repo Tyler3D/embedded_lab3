@@ -85,7 +85,7 @@ int main()
     print_background_color();
     usleep(400000);
   }
-	printf("Begin of moving ball);
+	printf("Begin of moving ball");
 	for (i = 0; i < 100; i++) {
 		set_coords(i % 16, i % 16);
 		usleep(400000);
