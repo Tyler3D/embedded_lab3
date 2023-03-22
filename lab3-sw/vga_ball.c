@@ -67,8 +67,8 @@ static void write_background(vga_ball_color_t *background)
 
 static void write_coords(char x, char y)
 {
-	iowrite8(x, HEIGHT(dev.virtbase));
-	iowrite8(y, WIDTH(dev.virtbase));
+	iowrite8(x, WIDTH(dev.virtbase));
+	iowrite8(y, HEIGHT(dev.virtbase));
 	dev.ball_x = x;
 	dev.ball_y = y;
 }

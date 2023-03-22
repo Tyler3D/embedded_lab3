@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 int vga_ball_fd;
 
@@ -86,14 +87,18 @@ int main()
     print_background_color();
     usleep(40000);
   }
-	printf("Begin of moving ball");
-	int x_vel = (rand() % 2) - 1;
-  int y_vel = (rand() % 2) - 1;
-  int x = (rand() % (H_SIZE - 5)) + 5;
-  int y = (rand() % (V_SIZE - 5)) + 5;
+  printf("Begin of moving ball\n");
+  srand(time(0));
+  float x_vel = ((2.0 * rand() / RAND_MAX) + 1);
+  float y_vel = ((2.0 * rand() / RAND_MAX) + 1);
+  x_vel = ((rand() % 2) == 1 ? x_vel : -1 * x_vel);
+  y_vel = ((rand() % 2) == 1 ? y_vel : -1 * y_vel);
+  float x = (rand() % (H_SIZE - 5)) + 5;
+  float y = (rand() % (V_SIZE - 5)) + 5;
   set_coords(x, y);
+  printf("Initial vel %f %f\n", x_vel, y_vel);
   while(1) {
-    usleep(400000);
+    usleep(100000);
     if (x + x_vel >= H_SIZE) {
       x = H_SIZE;
       x_vel *= -1;
@@ -111,6 +116,7 @@ int main()
       y += y_vel;
     }
     set_coords(x, y);
+    printf("Coords are x: %f, y: %f, x_vel: %f, y_vel: %f\n", x, y, x_vel, y_vel);
   }
   /*
   for (i = 0; i < 100; i++) {
