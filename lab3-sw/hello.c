@@ -83,7 +83,7 @@ int main()
   for (i = 0 ; i < 24 ; i++) {
     set_background_color(&colors[i % COLORS ]);
     print_background_color();
-    usleep(400000);
+    usleep(40000);
   }
 	printf("Begin of moving ball");
 	for (i = 0; i < 100; i++) {
