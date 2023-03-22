@@ -40,7 +40,7 @@ void set_background_color(const vga_ball_color_t *c)
   }
 }
 
-void set_height(const int height)
+void set_coords(uint8_t x, uint8_t y)
 {
 	vga_ball_arg_t vla;
 	vla.height = height;
@@ -84,11 +84,10 @@ int main()
     print_background_color();
     usleep(400000);
   }
-
-	for (i = 200; i >= 0; i--) {
-	set_height(i);
-	usleep(40000);
-}
+  set_coords(1, 1);
+  set_coords(3, 3);
+  set_coords(4, 4);
+  set_coords(5, 5);
 
   
   printf("VGA BALL Userspace program terminating\n");

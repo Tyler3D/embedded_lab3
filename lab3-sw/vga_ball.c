@@ -39,7 +39,8 @@
 #define BG_RED(x) (x)
 #define BG_GREEN(x) ((x)+1)
 #define BG_BLUE(x) ((x)+2)
-#define HEIGHT(x) ((x)+3)
+#define WIDTH(x) ((x)+3)
+#define HEIGHT(x) ((x)+4)
 
 /*
  * Information about our device
@@ -48,7 +49,8 @@ struct vga_ball_dev {
 	struct resource res; /* Resource: our registers */
 	void __iomem *virtbase; /* Where registers can be accessed in memory */
     vga_ball_color_t background;
-	char ball_height;
+	uint8_t ball_x;	
+	uint8_t ball_y;
 } dev;
 
 /*
@@ -63,11 +65,14 @@ static void write_background(vga_ball_color_t *background)
 	dev.background = *background;
 }
 
-static void write_height(int height)
+static void write_coords(uint8_t x, uint8_t y)
 {
-	iowrite8(height, HEIGHT(dev.virtbase));
-	dev.ball_height = height;
+	iowrite8(x, HEIGHT(dev.virtbase));
+	iowrite8(y, WIDTH(dev.virtbase));
+	dev.ball_x = x_pos;
+	dev.ball_y = y_pos;
 }
+
 /*
  * Handle ioctl() calls from userspace:
  * Read or write the segments on single digits.
@@ -91,12 +96,12 @@ static long vga_ball_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 				 sizeof(vga_ball_arg_t)))
 			return -EACCES;
 		break;
-
-	case VGA_BALL_WRITE_HEIGHT:
+	case VGA_BALL_WRITE_COORDS:
 		if (copy_from_user(&vla, (vga_ball_arg_t *) arg,
 				   sizeof(vga_ball_arg_t)))
 			return -EACCES;
-		write_height(vla.height);
+		write_coords(vla.x, vla.y);
+		//write_height(vla.x);
 		break;
 	default:
 		return -EINVAL;
@@ -124,7 +129,7 @@ static struct miscdevice vga_ball_misc_device = {
  */
 static int __init vga_ball_probe(struct platform_device *pdev)
 {
-        vga_ball_color_t beige = { 0xf9, 0xe4, 0xb7 };
+    vga_ball_color_t beige = { 0xf9, 0xe4, 0xb7 };
 	int ret;
 
 	/* Register ourselves as a misc device: creates /dev/vga_ball */
@@ -152,7 +157,10 @@ static int __init vga_ball_probe(struct platform_device *pdev)
 	}
         
 	/* Set an initial color */
-        write_background(&beige);
+    write_background(&beige);
+	/* Set inital height */
+	write_coords(7, 7);
+
 
 	return 0;
 
