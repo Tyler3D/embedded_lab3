@@ -89,8 +89,8 @@ int main()
 	printf("Begin of moving ball");
 	int x_vel = (rand() % 2) - 1;
   int y_vel = (rand() % 2) - 1;
-  int x = (rand() % (H_SIZE - 5)) + 5
-  int y = (rand() % (V_SIZE - 5)) + 5
+  int x = (rand() % (H_SIZE - 5)) + 5;
+  int y = (rand() % (V_SIZE - 5)) + 5;
   set_coords(x, y);
   while(1) {
     if (x + x_vel >= H_SIZE) {
