@@ -6,7 +6,7 @@
  */
 
 module vga_ball(input logic        clk,
-	        input logic 	   reset,
+	  input logic 	   reset,
 		input logic [7:0]  writedata,
 		input logic 	   write,
 		input 		   chipselect,
@@ -19,7 +19,8 @@ module vga_ball(input logic        clk,
 
    logic [10:0]	   hcount;
    logic [9:0]     vcount;
-   logic [7:0] height;
+   logic [7:0] x_pos;
+   logic [7:0] y_pos;
 
    logic [7:0] 	   background_r, background_g, background_b;
 	
@@ -35,15 +36,18 @@ module vga_ball(input logic        clk,
 	 3'h0 : background_r <= writedata;
 	 3'h1 : background_g <= writedata;
 	 3'h2 : background_b <= writedata;
-	 3'h3 : height <= writedata;
+	 3'h3 : x_pos <= writedata;
+	 3'h4 : y_pos <= writedata;
        endcase
 
    always_comb begin
       {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
       if (VGA_BLANK_n )
-	if (hcount[10:6] == 5'd3 &&
-	    vcount[8:1] == height)
-	  {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
+	if (hcount[10:6] == x_pos[4:0] &&
+	    vcount[9:5] == y_pos[4:0])
+	//if (hcount[10:6] == 5'd3 &&
+	//		vcount[9:5] == 5'd3)
+	  {VGA_R, VGA_G, VGA_B} = {8'h0, 8'hff, 8'h0};
 	else
 	  {VGA_R, VGA_G, VGA_B} =
              {background_r, background_g, background_b};
@@ -73,7 +77,7 @@ module vga_counters(
    parameter HACTIVE      = 11'd 1280,
              HFRONT_PORCH = 11'd 32,
              HSYNC        = 11'd 192,
-             HBACK_PORCH  = 11'd 96,   
+             HBACK_PORCH  = 11'd 96,
              HTOTAL       = HACTIVE + HFRONT_PORCH + HSYNC +
                             HBACK_PORCH; // 1600
    
