@@ -40,12 +40,13 @@ void set_background_color(const vga_ball_color_t *c)
   }
 }
 
-void set_coords(uint8_t x, uint8_t y)
+void set_coords(char x, char y)
 {
 	vga_ball_arg_t vla;
-	vla.height = height;
-  if (ioctl(vga_ball_fd, VGA_BALL_WRITE_HEIGHT, &vla)) {
-      perror("ioctl(VGA_BALL_SET_HEIGHT) failed");
+	vla.x = x;
+	vla.y = y;
+  if (ioctl(vga_ball_fd, VGA_BALL_WRITE_COORDS, &vla)) {
+      perror("ioctl(VGA_BALL_SET_COORDS) failed");
       return;
   }
 }

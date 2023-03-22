@@ -10,8 +10,8 @@ typedef struct {
 
 typedef struct {
   vga_ball_color_t background;
-  uint8_t x;
-  uint8_t y;
+  char x;
+  char y;
 } vga_ball_arg_t;
 
 #define VGA_BALL_MAGIC 'q'
