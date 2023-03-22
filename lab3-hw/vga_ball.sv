@@ -43,7 +43,7 @@ module vga_ball(input logic        clk,
       {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
       if (VGA_BLANK_n )
 	if ((hcount[10:3] - x_pos[7:0]) * (hcount[10:3] - x_pos[7:0]) 
-    +  (vcount[10:3] - y_pos[7:0]) * (vcount[10:3] - y_pos[7:0]) < 25)
+    +  (vcount[9:2] - y_pos[7:0]) * (vcount[9:2] - y_pos[7:0]) < 25)
 	//if (hcount[10:6] == 5'd3 &&
 	//		vcount[9:5] == 5'd3)
 	  {VGA_R, VGA_G, VGA_B} = {8'h0, 8'hff, 8'h0};
