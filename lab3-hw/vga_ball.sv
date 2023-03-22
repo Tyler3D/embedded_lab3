@@ -21,8 +21,6 @@ module vga_ball(input logic        clk,
    logic [9:0]     vcount;
    logic [7:0] x_pos;
    logic [7:0] y_pos;
-   integer x_offset;
-   integer y_offset;
    logic [7:0] 	   background_r, background_g, background_b;
 	
    vga_counters counters(.clk50(clk), .*);
@@ -44,9 +42,8 @@ module vga_ball(input logic        clk,
    always_comb begin
       {VGA_R, VGA_G, VGA_B} = {8'h0, 8'h0, 8'h0};
       if (VGA_BLANK_n )
-      x_offset = hcount[10:3] - x_pos[7:0];
-      y_offset = vcount[10:3] - y_pos[7:0];
-	if (x_offset * x_offset + y_offset * y_offset < 25)
+	if ((hcount[10:3] - x_pos[7:0]) * (hcount[10:3] - x_pos[7:0]) 
+    +  (vcount[10:3] - y_pos[7:0]) * (vcount[10:3] - y_pos[7:0]) < 25)
 	//if (hcount[10:6] == 5'd3 &&
 	//		vcount[9:5] == 5'd3)
 	  {VGA_R, VGA_G, VGA_B} = {8'h0, 8'hff, 8'h0};
